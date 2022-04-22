@@ -1,18 +1,34 @@
 <template>
   <div class="welcome container">
-      <p>Welcome</p>
-      <Signup></Signup>
-      <Login></Login>
+      <div v-if="showLoginForm">
+        <Login @enterChatroom="enterChatroom"></Login>
+        <p>Not a member? Let's <span @click="showLoginForm=!showLoginForm">create account!</span></p>
+      </div>
+      <div v-else>
+        <Signup @enterChatroom="enterChatroom"></Signup>
+        <p>Already member? <span @click="showLoginForm=!showLoginForm">Login Account?</span></p>
+      </div>
+      
+      
   </div>
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
+import {useRouter} from 'vue-router'
 export default {
   components: {
     Login, Signup },
-
+  setup(props) {
+    let showLoginForm = ref(true);
+    let router = useRouter();
+    let enterChatroom=()=>{
+      router.push({name:"chatroom"});
+    };
+    return {showLoginForm,enterChatroom};
+  }
 }
 </script>
 
@@ -42,6 +58,7 @@ export default {
   .welcome span{
     font-weight: bold;
     text-decoration: underline;
+    color: #5ae4ca;
     cursor: pointer;
   }
   .welcome button {

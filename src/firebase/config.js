@@ -1,6 +1,8 @@
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 
 
 const firebaseConfig = {
@@ -25,6 +27,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+const auth = getAuth();
 
 let timestamp = serverTimestamp();
-export {db,timestamp};
+export {db,timestamp,auth};
