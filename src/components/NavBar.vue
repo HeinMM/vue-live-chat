@@ -1,20 +1,22 @@
 <template>
-   <nav>
+   <nav v-if="user">
        <div>
-           <p>Hi display name</p>
-           <p class="email">Logged in as email</p>
+           <p>Hello {{user.displayName}}!!!</p>
+           <p class="email">Logged in as {{user.email}}</p>
        </div>
        <button @click="logout">Logout</button>
    </nav>
 </template>
 
 <script>
-import { signOut } from '@firebase/auth'
+import {  signOut } from '@firebase/auth'
 import {auth} from '../firebase/config'
 import { ref } from '@vue/reactivity';
+import getUser from '../composables/getUser'
 export default {
     setup(props) {
         let error= ref(null);
+        let {user} = getUser();
         let logout=async()=>{
           try {
                await signOut(auth);
@@ -23,7 +25,9 @@ export default {
               error.value = err.message;
           }
         }
-        return {logout,error};
+        
+        
+        return {logout,error,user};
     }
 }
 </script>
